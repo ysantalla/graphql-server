@@ -1,0 +1,107 @@
+scalar Upload
+
+type File {
+  id: ID!
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  size: Int!
+}
+
+input FileCreateInput {
+  path: String!
+  filename: String!
+  mimetype: String!
+  encoding: String!
+  size: Int!
+}
+
+input FileUpdateInput {
+  path: String
+  filename: String
+  mimetype: String
+  encoding: String
+  size: Int
+}
+
+input FileWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  path: String
+  path_not: String
+  path_in: [String!]
+  path_not_in: [String!]
+  path_contains: String
+  path_not_contains: String
+  path_starts_with: String
+  path_not_starts_with: String
+  path_ends_with: String
+  path_not_ends_with: String
+  filename: String
+  filename_not: String
+  filename_in: [String!]
+  filename_not_in: [String!]
+  filename_contains: String
+  filename_not_contains: String
+  filename_starts_with: String
+  filename_not_starts_with: String
+  filename_ends_with: String
+  filename_not_ends_with: String
+  mimetype: String
+  mimetype_not: String
+  mimetype_in: [String!]
+  mimetype_not_in: [String!]
+  mimetype_contains: String
+  mimetype_not_contains: String
+  mimetype_starts_with: String
+  mimetype_not_starts_with: String
+  mimetype_ends_with: String
+  mimetype_not_ends_with: String
+  encoding: String
+  encoding_not: String
+  encoding_in: [String!]
+  encoding_not_in: [String!]
+  encoding_contains: String
+  encoding_not_contains: String
+  encoding_starts_with: String
+  encoding_not_starts_with: String
+  encoding_ends_with: String
+  encoding_not_ends_with: String
+  size: Int
+  size_not: Int
+  size_in: [Int!]
+  size_not_in: [Int!]
+  size_lt: Int
+  size_lte: Int
+  size_gt: Int
+  size_gte: Int
+  AND: [FileWhereInput!]
+  OR: [FileWhereInput!]
+  NOT: [FileWhereInput!]
+}
+
+input FileWhereUniqueInput {
+  id: ID
+}
+
+enum FileOrderByInput {
+  id_ASC
+  id_DESC
+  path_ASC
+  path_DESC
+  filename_ASC
+  filename_DESC
+  mimetype_ASC
+  mimetype_DESC
+  encoding_ASC
+  encoding_DESC
+  size_ASC
+  size_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
