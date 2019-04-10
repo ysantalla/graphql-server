@@ -36,6 +36,7 @@ type Config struct {
 type ResolverRoot interface {
 	Mutation() MutationResolver
 	Query() QueryResolver
+	User() UserResolver
 }
 
 type DirectiveRoot struct {
@@ -106,6 +107,9 @@ type QueryResolver interface {
 	Users(ctx context.Context, where *model.UserWhereInput, orderBy *model.UserOrderByInput, skip *int, after *string, before *string, first *int, last *int) ([]model.User, error)
 	File(ctx context.Context, where model.RoleWhereUniqueInput) (*model.File, error)
 	Files(ctx context.Context, where *model.FileWhereInput, orderBy *model.FileOrderByInput, skip *int, after *string, before *string, first *int, last *int) ([]model.File, error)
+}
+type UserResolver interface {
+	ID(ctx context.Context, obj *model.User) (string, error)
 }
 
 type executableSchema struct {
@@ -687,37 +691,10 @@ input UserCreateInput {
 input UserUpdateInput {
   name: String
   email: String
-  password: String
 }
 
 input UserWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
   name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
@@ -2007,13 +1984,13 @@ func (ec *executionContext) _User_id(ctx context.Context, field graphql.Collecte
 		Object:   "User",
 		Field:    field,
 		Args:     nil,
-		IsMethod: false,
+		IsMethod: true,
 	}
 	ctx = graphql.WithResolverContext(ctx, rctx)
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, obj, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
+		return ec.resolvers.User().ID(rctx, obj)
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {
@@ -3611,12 +3588,6 @@ func (ec *executionContext) unmarshalInputUserUpdateInput(ctx context.Context, v
 			if err != nil {
 				return it, err
 			}
-		case "password":
-			var err error
-			it.Password, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		}
 	}
 
@@ -3629,165 +3600,9 @@ func (ec *executionContext) unmarshalInputUserWhereInput(ctx context.Context, v 
 
 	for k, v := range asMap {
 		switch k {
-		case "id":
-			var err error
-			it.ID, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "id_not":
-			var err error
-			it.IDNot, err = ec.unmarshalOID2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "id_in":
-			var err error
-			it.IDIn, err = ec.unmarshalOID2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "id_not_in":
-			var err error
-			it.IDNotIn, err = ec.unmarshalOID2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_not":
-			var err error
-			it.NameNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_in":
-			var err error
-			it.NameIn, err = ec.unmarshalOString2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_not_in":
-			var err error
-			it.NameNotIn, err = ec.unmarshalOString2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_contains":
-			var err error
-			it.NameContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_not_contains":
-			var err error
-			it.NameNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_starts_with":
-			var err error
-			it.NameStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_not_starts_with":
-			var err error
-			it.NameNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_ends_with":
-			var err error
-			it.NameEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "name_not_ends_with":
-			var err error
-			it.NameNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email":
-			var err error
-			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_not":
-			var err error
-			it.EmailNot, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_in":
-			var err error
-			it.EmailIn, err = ec.unmarshalOString2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_not_in":
-			var err error
-			it.EmailNotIn, err = ec.unmarshalOString2ᚕstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_contains":
-			var err error
-			it.EmailContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_not_contains":
-			var err error
-			it.EmailNotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_starts_with":
-			var err error
-			it.EmailStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_not_starts_with":
-			var err error
-			it.EmailNotStartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_ends_with":
-			var err error
-			it.EmailEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "email_not_ends_with":
-			var err error
-			it.EmailNotEndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "AND":
-			var err error
-			it.And, err = ec.unmarshalOUserWhereInput2ᚕgithubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "OR":
-			var err error
-			it.Or, err = ec.unmarshalOUserWhereInput2ᚕgithubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "NOT":
-			var err error
-			it.Not, err = ec.unmarshalOUserWhereInput2ᚕgithubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4096,10 +3911,19 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("User")
 		case "id":
-			out.Values[i] = ec._User_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalid = true
-			}
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._User_id(ctx, field, obj)
+				if res == graphql.Null {
+					invalid = true
+				}
+				return res
+			})
 		case "name":
 			out.Values[i] = ec._User_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -4699,10 +4523,6 @@ func (ec *executionContext) unmarshalNUserUpdateInput2githubᚗcomᚋysantalla�
 	return ec.unmarshalInputUserUpdateInput(ctx, v)
 }
 
-func (ec *executionContext) unmarshalNUserWhereInput2githubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx context.Context, v interface{}) (model.UserWhereInput, error) {
-	return ec.unmarshalInputUserWhereInput(ctx, v)
-}
-
 func (ec *executionContext) unmarshalNUserWhereUniqueInput2githubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereUniqueInput(ctx context.Context, v interface{}) (model.UserWhereUniqueInput, error) {
 	return ec.unmarshalInputUserWhereUniqueInput(ctx, v)
 }
@@ -5280,26 +5100,6 @@ func (ec *executionContext) marshalOUserOrderByInput2ᚖgithubᚗcomᚋysantalla
 
 func (ec *executionContext) unmarshalOUserWhereInput2githubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx context.Context, v interface{}) (model.UserWhereInput, error) {
 	return ec.unmarshalInputUserWhereInput(ctx, v)
-}
-
-func (ec *executionContext) unmarshalOUserWhereInput2ᚕgithubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx context.Context, v interface{}) ([]model.UserWhereInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		if tmp1, ok := v.([]interface{}); ok {
-			vSlice = tmp1
-		} else {
-			vSlice = []interface{}{v}
-		}
-	}
-	var err error
-	res := make([]model.UserWhereInput, len(vSlice))
-	for i := range vSlice {
-		res[i], err = ec.unmarshalNUserWhereInput2githubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
 }
 
 func (ec *executionContext) unmarshalOUserWhereInput2ᚖgithubᚗcomᚋysantallaᚋgraphqlᚑserverᚋmodelᚐUserWhereInput(ctx context.Context, v interface{}) (*model.UserWhereInput, error) {

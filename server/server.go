@@ -34,24 +34,13 @@ func playgroundHandler() gin.HandlerFunc {
 
 func main() {
 
-	/*ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	db := client.Database("graphql_db")
-
-	db.Collection("user")
-
-	fmt.Println("Connected to MongoDB!")*/
-
 	r := gin.Default()
+
 	r.POST("/graphql", graphqlHandler())
 	r.GET("/", playgroundHandler())
+	// r.Use(cors.Default())
 	r.Run(addr)
 
-	log.Printf("Connect to http://%s/ for GraphQL playground", addr)
+	log.Printf("Connect1 to http://%s/ for GraphQL playground", addr)
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

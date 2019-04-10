@@ -10,6 +10,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
 	github.com/mongodb/mongo-go-driver v1.0.0
+	github.com/rs/cors v1.6.0
 	github.com/ugorji/go/codec v0.0.0-20190320090025-2dc34c0b8780 // indirect
 	github.com/vektah/gqlparser v1.1.2
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect

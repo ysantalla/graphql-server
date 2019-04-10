@@ -14,37 +14,10 @@ input UserCreateInput {
 input UserUpdateInput {
   name: String
   email: String
-  password: String
 }
 
 input UserWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
   name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {

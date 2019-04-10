@@ -127,39 +127,12 @@ type UserCreateInput struct {
 }
 
 type UserUpdateInput struct {
-	Name     *string `json:"name"`
-	Email    *string `json:"email"`
-	Password *string `json:"password"`
+	Name  *string `json:"name"`
+	Email *string `json:"email"`
 }
 
 type UserWhereInput struct {
-	ID                 *string          `json:"id"`
-	IDNot              *string          `json:"id_not"`
-	IDIn               []string         `json:"id_in"`
-	IDNotIn            []string         `json:"id_not_in"`
-	Name               *string          `json:"name"`
-	NameNot            *string          `json:"name_not"`
-	NameIn             []string         `json:"name_in"`
-	NameNotIn          []string         `json:"name_not_in"`
-	NameContains       *string          `json:"name_contains"`
-	NameNotContains    *string          `json:"name_not_contains"`
-	NameStartsWith     *string          `json:"name_starts_with"`
-	NameNotStartsWith  *string          `json:"name_not_starts_with"`
-	NameEndsWith       *string          `json:"name_ends_with"`
-	NameNotEndsWith    *string          `json:"name_not_ends_with"`
-	Email              *string          `json:"email"`
-	EmailNot           *string          `json:"email_not"`
-	EmailIn            []string         `json:"email_in"`
-	EmailNotIn         []string         `json:"email_not_in"`
-	EmailContains      *string          `json:"email_contains"`
-	EmailNotContains   *string          `json:"email_not_contains"`
-	EmailStartsWith    *string          `json:"email_starts_with"`
-	EmailNotStartsWith *string          `json:"email_not_starts_with"`
-	EmailEndsWith      *string          `json:"email_ends_with"`
-	EmailNotEndsWith   *string          `json:"email_not_ends_with"`
-	And                []UserWhereInput `json:"AND"`
-	Or                 []UserWhereInput `json:"OR"`
-	Not                []UserWhereInput `json:"NOT"`
+	Name *string `json:"name"`
 }
 
 type UserWhereUniqueInput struct {
